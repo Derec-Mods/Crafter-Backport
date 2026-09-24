@@ -58,20 +58,21 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
             super.onMouseClick(slot, slotId, button, actionType);
         } else {
             if (slotId > -1 && slotId < 9 && slot instanceof CrafterInputSlot) {
-                if (slot.hasStack()) {
-                    super.onMouseClick(slot, slotId, button, actionType);
-                    return;
-                }
-
-                boolean bl = this.handler.isSlotDisabled(slotId);
-                if (bl || this.handler.getCursorStack().isEmpty()) {
-                    this.handler.setSlotEnabled(slotId, bl);
-                    this.onSlotChangedState(slotId, this.handler.syncId, bl);
-                    if (bl) {
+                boolean disabled = this.handler.isSlotDisabled(slotId);
+                
+                if (actionType == SlotActionType.PICKUP && !slot.hasStack() && this.handler.getCursorStack().isEmpty()) {
+                    this.handler.setSlotEnabled(slotId, disabled);
+                    this.onSlotChangedState(slotId, this.handler.syncId, disabled);
+                    if (disabled) {
                         this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 1.0F);
                     } else {
                         this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 0.75F);
                     }
+                    return;
+                }
+                
+                if (disabled) {
+                    return;
                 }
             }
 
