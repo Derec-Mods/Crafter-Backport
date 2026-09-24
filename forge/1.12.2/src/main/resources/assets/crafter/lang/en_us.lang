@@ -1,3 +1,8 @@
+tile.crafter.name=Crafter
 tile.crafter.crafter.name=Crafter
+tile.crafter.crafter=Crafter
+tile.crafter=Crafter
+item.crafter.name=Crafter
+item.crafter.crafter.name=Crafter
 container.crafter=Crafter
 crafter.gui.toggleable_slot=Toggle slot

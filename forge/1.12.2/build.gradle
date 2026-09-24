@@ -38,3 +38,10 @@ processResources {
         expand "version": project.version, "mcversion": "1.12.2"
     }
 }
+
+jar {
+    from("src/main/resources/assets/crafter/lang/en_us.lang") {
+        into("assets/crafter/lang")
+        rename("en_us.lang", "en_US.lang")
+    }
+}

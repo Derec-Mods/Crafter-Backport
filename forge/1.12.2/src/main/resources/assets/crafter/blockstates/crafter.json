@@ -1,33 +1,35 @@
 {
   "variants": {
-    "facing=down,triggered=false,crafting=false": { "model": "crafter:crafter", "x": 90 },
-    "facing=down,triggered=true,crafting=false": { "model": "crafter:crafter_triggered", "x": 90 },
-    "facing=down,triggered=false,crafting=true": { "model": "crafter:crafter_crafting", "x": 90 },
-    "facing=down,triggered=true,crafting=true": { "model": "crafter:crafter_crafting_triggered", "x": 90 },
+    "crafting=false,facing=down,triggered=false": { "model": "crafter:crafter", "x": 90 },
+    "crafting=false,facing=down,triggered=true": { "model": "crafter:crafter_triggered", "x": 90 },
+    "crafting=true,facing=down,triggered=false": { "model": "crafter:crafter_crafting", "x": 90 },
+    "crafting=true,facing=down,triggered=true": { "model": "crafter:crafter_crafting_triggered", "x": 90 },
 
-    "facing=up,triggered=false,crafting=false": { "model": "crafter:crafter", "x": 270, "y": 180 },
-    "facing=up,triggered=true,crafting=false": { "model": "crafter:crafter_triggered", "x": 270, "y": 180 },
-    "facing=up,triggered=false,crafting=true": { "model": "crafter:crafter_crafting", "x": 270, "y": 180 },
-    "facing=up,triggered=true,crafting=true": { "model": "crafter:crafter_crafting_triggered", "x": 270, "y": 180 },
+    "crafting=false,facing=up,triggered=false": { "model": "crafter:crafter", "x": 270, "y": 180 },
+    "crafting=false,facing=up,triggered=true": { "model": "crafter:crafter_triggered", "x": 270, "y": 180 },
+    "crafting=true,facing=up,triggered=false": { "model": "crafter:crafter_crafting", "x": 270, "y": 180 },
+    "crafting=true,facing=up,triggered=true": { "model": "crafter:crafter_crafting_triggered", "x": 270, "y": 180 },
 
-    "facing=north,triggered=false,crafting=false": { "model": "crafter:crafter" },
-    "facing=north,triggered=true,crafting=false": { "model": "crafter:crafter_triggered" },
-    "facing=north,triggered=false,crafting=true": { "model": "crafter:crafter_crafting" },
-    "facing=north,triggered=true,crafting=true": { "model": "crafter:crafter_crafting_triggered" },
+    "crafting=false,facing=north,triggered=false": { "model": "crafter:crafter" },
+    "crafting=false,facing=north,triggered=true": { "model": "crafter:crafter_triggered" },
+    "crafting=true,facing=north,triggered=false": { "model": "crafter:crafter_crafting" },
+    "crafting=true,facing=north,triggered=true": { "model": "crafter:crafter_crafting_triggered" },
 
-    "facing=south,triggered=false,crafting=false": { "model": "crafter:crafter", "y": 180 },
-    "facing=south,triggered=true,crafting=false": { "model": "crafter:crafter_triggered", "y": 180 },
-    "facing=south,triggered=false,crafting=true": { "model": "crafter:crafter_crafting", "y": 180 },
-    "facing=south,triggered=true,crafting=true": { "model": "crafter:crafter_crafting_triggered", "y": 180 },
+    "crafting=false,facing=south,triggered=false": { "model": "crafter:crafter", "y": 180 },
+    "crafting=false,facing=south,triggered=true": { "model": "crafter:crafter_triggered", "y": 180 },
+    "crafting=true,facing=south,triggered=false": { "model": "crafter:crafter_crafting", "y": 180 },
+    "crafting=true,facing=south,triggered=true": { "model": "crafter:crafter_crafting_triggered", "y": 180 },
 
-    "facing=west,triggered=false,crafting=false": { "model": "crafter:crafter", "y": 270 },
-    "facing=west,triggered=true,crafting=false": { "model": "crafter:crafter_triggered", "y": 270 },
-    "facing=west,triggered=false,crafting=true": { "model": "crafter:crafter_crafting", "y": 270 },
-    "facing=west,triggered=true,crafting=true": { "model": "crafter:crafter_crafting_triggered", "y": 270 },
+    "crafting=false,facing=west,triggered=false": { "model": "crafter:crafter", "y": 270 },
+    "crafting=false,facing=west,triggered=true": { "model": "crafter:crafter_triggered", "y": 270 },
+    "crafting=true,facing=west,triggered=false": { "model": "crafter:crafter_crafting", "y": 270 },
+    "crafting=true,facing=west,triggered=true": { "model": "crafter:crafter_crafting_triggered", "y": 270 },
 
-    "facing=east,triggered=false,crafting=false": { "model": "crafter:crafter", "y": 90 },
-    "facing=east,triggered=true,crafting=false": { "model": "crafter:crafter_triggered", "y": 90 },
-    "facing=east,triggered=false,crafting=true": { "model": "crafter:crafter_crafting", "y": 90 },
-    "facing=east,triggered=true,crafting=true": { "model": "crafter:crafter_crafting_triggered", "y": 90 }
+    "crafting=false,facing=east,triggered=false": { "model": "crafter:crafter", "y": 90 },
+    "crafting=false,facing=east,triggered=true": { "model": "crafter:crafter_triggered", "y": 90 },
+    "crafting=true,facing=east,triggered=false": { "model": "crafter:crafter_crafting", "y": 90 },
+    "crafting=true,facing=east,triggered=true": { "model": "crafter:crafter_crafting_triggered", "y": 90 },
+
+    "inventory": { "model": "crafter:crafter" }
   }
 }
