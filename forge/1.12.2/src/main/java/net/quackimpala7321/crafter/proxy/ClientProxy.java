@@ -6,16 +6,26 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.quackimpala7321.crafter.CrafterMod;
 import net.quackimpala7321.crafter.client.gui.GuiCrafter;
 import net.quackimpala7321.crafter.init.ModBlocks;
 import net.quackimpala7321.crafter.tileentity.TileEntityCrafter;
 
+@Mod.EventBusSubscriber(value = Side.CLIENT, modid = CrafterMod.MODID)
 public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+    }
+
+    @SubscribeEvent
+    public static void registerModels(ModelRegistryEvent event) {
         ModelLoader.setCustomModelResourceLocation(
             Item.getItemFromBlock(ModBlocks.CRAFTER),
             0,

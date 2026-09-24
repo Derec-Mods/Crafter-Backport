@@ -14,14 +14,13 @@ import net.quackimpala7321.crafter.tileentity.TileEntityCrafter;
 
 @Mod.EventBusSubscriber(modid = CrafterMod.MODID)
 public class ModBlocks {
-    public static final BlockCrafter CRAFTER = new BlockCrafter();
+    public static final BlockCrafter CRAFTER = (BlockCrafter) new BlockCrafter()
+            .setRegistryName(new ResourceLocation(CrafterMod.MODID, "crafter"))
+            .setTranslationKey(CrafterMod.MODID + ".crafter");
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        CRAFTER.setRegistryName(new ResourceLocation(CrafterMod.MODID, "crafter"));
-        CRAFTER.setTranslationKey(CrafterMod.MODID + ".crafter");
         event.getRegistry().register(CRAFTER);
-
         GameRegistry.registerTileEntity(TileEntityCrafter.class, new ResourceLocation(CrafterMod.MODID, "crafter"));
     }
 
