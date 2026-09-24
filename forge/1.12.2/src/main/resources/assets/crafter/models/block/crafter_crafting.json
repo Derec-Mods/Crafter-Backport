@@ -1,0 +1,26 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "bottom": "crafter:blocks/crafter_bottom",
+    "top": "crafter:blocks/crafter_top_crafting",
+    "north": "crafter:blocks/crafter_north_crafting",
+    "south": "crafter:blocks/crafter_south",
+    "west": "crafter:blocks/crafter_west_crafting",
+    "east": "crafter:blocks/crafter_east_crafting",
+    "particle": "#north"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#bottom", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#top", "cullface": "up" },
+        "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#north", "cullface": "north" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#south", "cullface": "south" },
+        "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#west", "cullface": "west" },
+        "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#east", "cullface": "east" }
+      }
+    }
+  ]
+}
