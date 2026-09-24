@@ -100,7 +100,7 @@ public class CrafterBlock extends BlockWithEntity {
             world.setBlockState(pos, state.with(TRIGGERED, true), 2);
             this.setTriggered(blockEntity, true);
         } else if (!bl && bl2) {
-            world.setBlockState(pos, state.with(TRIGGERED, false).with(CRAFTING, false), 2);
+            world.setBlockState(pos, state.with(TRIGGERED, false), 2);
             this.setTriggered(blockEntity, false);
         }
 
