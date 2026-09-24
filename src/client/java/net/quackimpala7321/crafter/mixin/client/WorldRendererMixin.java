@@ -50,18 +50,24 @@ public class WorldRendererMixin {
     private void addSoundWorldEvents(int eventId, BlockPos pos, int data, CallbackInfo ci, Random random) {
         if (_acc.getWorld() == null) return;
         switch (eventId) {
-            case ModWorldEvents.CRAFTER_FAILS: _acc.getWorld().playSound(
+            case ModWorldEvents.CRAFTER_FAILS:
+                _acc.getWorld().playSound(
                     pos.getX(), pos.getY(), pos.getZ(),
                     ModSoundEvents.CRAFTER_FAIL,
                     SoundCategory.BLOCKS,
                     1f, 1f, true);
-            case ModWorldEvents.CRAFTER_CRAFTS: _acc.getWorld().playSound(
+                break;
+            case ModWorldEvents.CRAFTER_CRAFTS:
+                _acc.getWorld().playSound(
                     pos.getX(), pos.getY(), pos.getZ(),
                     ModSoundEvents.CRAFTER_CRAFT,
                     SoundCategory.BLOCKS,
                     1f, 1f, true);
-            case ModWorldEvents.CRAFTER_SHOOTS: shootParticles(
+                break;
+            case ModWorldEvents.CRAFTER_SHOOTS:
+                shootParticles(
                     data, pos, random, ModParticles.WHITE_SMOKE);
+                break;
         }
     }
 }
