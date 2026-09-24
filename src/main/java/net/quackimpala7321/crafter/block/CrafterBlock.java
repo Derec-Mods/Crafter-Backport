@@ -184,6 +184,7 @@ public class CrafterBlock extends BlockWithEntity {
             world.setBlockState(pos, state.with(CRAFTING, true), 2);
             CraftingRecipe craftingRecipe = optional.get();
             ItemStack itemStack = craftingRecipe.craft(crafterBlockEntity, world.getRegistryManager());
+            world.syncWorldEvent(ModWorldEvents.CRAFTER_CRAFTS, pos, 0);
             this.transferOrSpawnStack(world, pos, crafterBlockEntity, itemStack, state);
             craftingRecipe.getRemainder(crafterBlockEntity).forEach((stack) -> {
                 this.transferOrSpawnStack(world, pos, crafterBlockEntity, stack, state);
@@ -226,7 +227,6 @@ public class CrafterBlock extends BlockWithEntity {
         if (!itemStack.isEmpty()) {
             Vec3d vec3d = Vec3d.ofCenter(pos).offset(direction, 0.7);
             ItemDispenserBehavior.spawnItem(world, itemStack, 6, direction, vec3d);
-            world.syncWorldEvent(ModWorldEvents.CRAFTER_CRAFTS, pos, 0);
             world.syncWorldEvent(ModWorldEvents.CRAFTER_SHOOTS, pos, direction.getId());
         }
 
