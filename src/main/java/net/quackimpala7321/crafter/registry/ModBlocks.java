@@ -15,6 +15,7 @@ public class ModBlocks {
     public static final Block CRAFTER = registerBlock(new Identifier("crafter"),
             new CrafterBlock(FabricBlockSettings.create()
                 .mapColor(MapColor.STONE_GRAY)
+                .requiresTool()
                 .strength(1.5F, 3.5F)));
 
     private static Block registerBlock(Identifier id, Block block) {
