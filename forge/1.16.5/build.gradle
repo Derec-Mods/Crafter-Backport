@@ -1,0 +1,51 @@
+plugins {
+    id 'java-library'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
+}
+
+version = project.mod_version
+group = "net.quackimpala7321.crafter"
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveVersion.set("${project.mod_version}-${project.minecraft_version}-${project.modloader}")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
+minecraft {
+    mcVersion = project.minecraft_version
+    mcpMappingChannel = 'stable'
+    mcpMappingVersion = '39'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Forge'
+        url = 'https://maven.minecraftforge.net/'
+    }
+    maven {
+        name = 'Cleanroom'
+        url = 'https://maven.cleanroommc.com'
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft_version
+
+    filesMatching("mcmod.info") {
+        expand "version": project.version, "mcversion": project.minecraft_version
+    }
+}
+
+jar {
+    from("src/main/resources/assets/crafter/lang/en_us.lang") {
+        into("assets/crafter/lang")
+        rename("en_us.lang", "en_US.lang")
+    }
+}
