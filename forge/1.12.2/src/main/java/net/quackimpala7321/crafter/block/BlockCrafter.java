@@ -82,15 +82,20 @@ public class BlockCrafter extends Block {
     }
 
     @Override
+    public int tickRate(World worldIn) {
+        return 4;
+    }
+
+    @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         boolean hasPower = worldIn.isBlockPowered(pos);
         boolean isTriggered = state.getValue(TRIGGERED);
 
         if (hasPower && !isTriggered) {
-            worldIn.scheduleUpdate(pos, this, 1);
-            worldIn.setBlockState(pos, state.withProperty(TRIGGERED, true), 2);
+            worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+            worldIn.setBlockState(pos, state.withProperty(TRIGGERED, true), 4);
         } else if (!hasPower && isTriggered) {
-            worldIn.setBlockState(pos, state.withProperty(TRIGGERED, false), 2);
+            worldIn.setBlockState(pos, state.withProperty(TRIGGERED, false), 4);
         }
     }
 
@@ -179,10 +184,19 @@ public class BlockCrafter extends Block {
             double y = pos.getY() + 0.5D + (double) facing.getYOffset() * 0.7D;
             double z = pos.getZ() + 0.5D + (double) facing.getZOffset() * 0.7D;
 
+            if (facing.getAxis() == EnumFacing.Axis.Y) {
+                y -= 0.125D;
+            } else {
+                y -= 0.15625D;
+            }
+
             EntityItem entityItem = new EntityItem(world, x, y, z, stack);
-            entityItem.motionX = (double) facing.getXOffset() * 0.3D + (world.rand.nextDouble() - 0.5D) * 0.1D;
-            entityItem.motionY = (double) facing.getYOffset() * 0.3D + 0.1D;
-            entityItem.motionZ = (double) facing.getZOffset() * 0.3D + (world.rand.nextDouble() - 0.5D) * 0.1D;
+            entityItem.setDefaultPickupDelay();
+
+            double speed = world.rand.nextDouble() * 0.1D + 0.2D;
+            entityItem.motionX = (double) facing.getXOffset() * speed + world.rand.nextGaussian() * 0.0075D;
+            entityItem.motionY = (double) facing.getYOffset() * speed + 0.2D + world.rand.nextGaussian() * 0.0075D;
+            entityItem.motionZ = (double) facing.getZOffset() * speed + world.rand.nextGaussian() * 0.0075D;
             world.spawnEntity(entityItem);
         }
     }

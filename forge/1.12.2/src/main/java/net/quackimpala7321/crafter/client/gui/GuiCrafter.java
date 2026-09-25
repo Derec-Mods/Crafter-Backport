@@ -39,7 +39,9 @@ public class GuiCrafter extends GuiContainer {
 
         Slot hovered = this.getSlotUnderMouse();
         if (hovered != null && hovered.getSlotIndex() < 9 && hovered.inventory == this.crafter) {
-            if (!this.crafter.isSlotDisabled(hovered.getSlotIndex()) && !hovered.getHasStack() && this.mc.player.inventory.getItemStack().isEmpty()) {
+            if (this.crafter.isSlotDisabled(hovered.getSlotIndex())) {
+                this.drawHoveringText(I18n.format("crafter.gui.disabled_slot"), mouseX, mouseY);
+            } else if (!hovered.getHasStack() && this.mc.player.inventory.getItemStack().isEmpty()) {
                 this.drawHoveringText(I18n.format("crafter.gui.toggleable_slot"), mouseX, mouseY);
             }
         }

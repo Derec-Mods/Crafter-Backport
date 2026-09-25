@@ -27,6 +27,12 @@ public class ContainerCrafter extends Container {
                     public boolean isItemValid(ItemStack stack) {
                         return !crafter.isSlotDisabled(this.getSlotIndex()) && super.isItemValid(stack);
                     }
+
+                    @Override
+                    public void onSlotChanged() {
+                        super.onSlotChanged();
+                        ContainerCrafter.this.onCraftMatrixChanged(ContainerCrafter.this.crafter);
+                    }
                 });
             }
         }
@@ -64,6 +70,12 @@ public class ContainerCrafter extends Container {
     }
 
     @Override
+    public void detectAndSendChanges() {
+        this.onCraftMatrixChanged(this.crafter);
+        super.detectAndSendChanges();
+    }
+
+    @Override
     public void onCraftMatrixChanged(IInventory inventoryIn) {
         InventoryCrafting craftInv = new InventoryCrafting(new Container() {
             @Override
@@ -78,7 +90,9 @@ public class ContainerCrafter extends Container {
 
         IRecipe recipe = CraftingManager.findMatchingRecipe(craftInv, this.world);
         ItemStack result = (recipe != null) ? recipe.getCraftingResult(craftInv) : ItemStack.EMPTY;
-        this.craftResult.setInventorySlotContents(0, result);
+        if (!ItemStack.areItemStacksEqual(this.craftResult.getStackInSlot(0), result)) {
+            this.craftResult.setInventorySlotContents(0, result);
+        }
     }
 
     @Override
@@ -133,6 +147,7 @@ public class ContainerCrafter extends Container {
             slot.onTake(playerIn, itemstack1);
         }
 
+        this.onCraftMatrixChanged(this.crafter);
         return itemstack;
     }
 }
