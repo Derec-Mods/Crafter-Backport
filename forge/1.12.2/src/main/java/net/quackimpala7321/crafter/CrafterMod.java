@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 public class CrafterMod {
     public static final String MODID = "crafter";
     public static final String NAME = "Crafter";
-    public static final String VERSION = "1.0.0.0";
+    public static final String VERSION = "1.0.0.1";
 
     @Mod.Instance(MODID)
     public static CrafterMod instance;
