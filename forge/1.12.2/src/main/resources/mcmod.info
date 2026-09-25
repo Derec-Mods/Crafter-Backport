@@ -7,7 +7,7 @@
   "mcversion": "${mcversion}",
   "url": "https://github.com/DereC4/Crafter-Backport",
   "updateUrl": "",
-  "authorList": ["QuackImpala7321", "Derek"],
+  "authorList": ["QuackImpala7321", "DerexXD"],
   "credits": "QuackImpala7321 for the original 1.20 backport, Mojang for the Crafter concept",
   "logoFile": "assets/crafter/icon.png",
   "screenshots": [],

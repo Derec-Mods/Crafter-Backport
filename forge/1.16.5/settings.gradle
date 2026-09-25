@@ -1,12 +1,11 @@
 pluginManagement {
     repositories {
-        maven {
-            name = 'GTNH Maven'
-            url = 'https://nexus.gtnewhorizons.com/repository/public/'
-        }
-        mavenCentral()
         gradlePluginPortal()
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://maven.minecraftforge.net/" }
     }
 }
+
 
 rootProject.name = 'crafter'

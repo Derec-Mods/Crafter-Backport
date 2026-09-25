@@ -1,51 +1,37 @@
 plugins {
-    id 'java-library'
-    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
+    id "dev.architectury.loom" version "1.7-SNAPSHOT"
 }
 
 version = project.mod_version
-group = "net.quackimpala7321.crafter"
+group = project.maven_group
 
-tasks.withType(AbstractArchiveTask).configureEach {
-    archiveVersion.set("${project.mod_version}-${project.minecraft_version}-${project.modloader}")
+base {
+    archivesName = project.archives_base_name
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
-minecraft {
-    mcVersion = project.minecraft_version
-    mcpMappingChannel = 'stable'
-    mcpMappingVersion = '39'
+loom {
+    forge {
+
+    }
 }
 
 repositories {
-    mavenCentral()
-    maven {
-        name = 'Forge'
-        url = 'https://maven.minecraftforge.net/'
-    }
-    maven {
-        name = 'Cleanroom'
-        url = 'https://maven.cleanroommc.com'
-    }
+    maven { url "https://maven.architectury.dev/" }
+    maven { url "https://maven.minecraftforge.net/" }
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft_version
-
-    filesMatching("mcmod.info") {
-        expand "version": project.version, "mcversion": project.minecraft_version
-    }
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
 }
 
-jar {
-    from("src/main/resources/assets/crafter/lang/en_us.lang") {
-        into("assets/crafter/lang")
-        rename("en_us.lang", "en_US.lang")
-    }
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveVersion.set("${project.mod_version}-${project.minecraft_version}-${project.modloader}")
 }
