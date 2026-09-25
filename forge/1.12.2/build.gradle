@@ -3,8 +3,12 @@ plugins {
     id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
 }
 
-version = "${project.mod_version}-${project.minecraft_version}-${project.modloader}"
+version = project.mod_version
 group = "net.quackimpala7321.crafter"
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    archiveVersion.set("${project.mod_version}-${project.minecraft_version}-${project.modloader}")
+}
 
 java {
     toolchain {
