@@ -9,8 +9,8 @@ import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.block.enums.JigsawOrientation;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CraftingRecipe;
@@ -68,7 +68,7 @@ public class CrafterBlock extends BlockWithEntity {
         boolean bl2 = state.get(TRIGGERED);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (bl && !bl2) {
-            world.createAndScheduleBlockTick(pos, this, 1);
+            world.scheduleBlockTick(pos, this, 1);
             world.setBlockState(pos, state.with(TRIGGERED, true), 2);
             this.setTriggered(blockEntity, true);
         } else if (!bl && bl2) {
@@ -102,8 +102,8 @@ public class CrafterBlock extends BlockWithEntity {
         Direction direction = ctx.getPlayerLookDirection().getOpposite();
 
         Direction direction2 = switch (direction) {
-            case DOWN -> ctx.getPlayerFacing().getOpposite();
-            case UP -> ctx.getPlayerFacing();
+            case DOWN -> ctx.getHorizontalPlayerFacing().getOpposite();
+            case UP -> ctx.getHorizontalPlayerFacing();
             case NORTH, SOUTH, WEST, EAST -> Direction.UP;
             default -> throw new IncompatibleClassChangeError();
         };
@@ -119,7 +119,7 @@ public class CrafterBlock extends BlockWithEntity {
         }
 
         if (state.get(TRIGGERED)) {
-            world.createAndScheduleBlockTick(pos, this, 1);
+            world.scheduleBlockTick(pos, this, 1);
         }
     }
 
@@ -145,18 +145,17 @@ public class CrafterBlock extends BlockWithEntity {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) return;
 
-        CraftingInventory craftingInventory = crafterBlockEntity.createCraftingInventory();
-        Optional<CraftingRecipe> optional = getCraftingRecipe(world, craftingInventory);
+        Optional<CraftingRecipe> optional = getCraftingRecipe(world, crafterBlockEntity);
         if (optional.isEmpty()) {
             world.syncWorldEvent(ModWorldEvents.CRAFTER_FAILS, pos, 0);
         } else {
             crafterBlockEntity.setCraftingTicksRemaining(6);
             world.setBlockState(pos, state.with(CRAFTING, true), 2);
             CraftingRecipe craftingRecipe = optional.get();
-            ItemStack itemStack = craftingRecipe.craft(craftingInventory);
+            ItemStack itemStack = craftingRecipe.craft(crafterBlockEntity, world.getRegistryManager());
             world.syncWorldEvent(ModWorldEvents.CRAFTER_CRAFTS, pos, 0);
             this.transferOrSpawnStack(world, pos, crafterBlockEntity, itemStack, state);
-            craftingRecipe.getRemainder(craftingInventory).forEach((stack) -> {
+            craftingRecipe.getRemainder(crafterBlockEntity).forEach((stack) -> {
                 this.transferOrSpawnStack(world, pos, crafterBlockEntity, stack, state);
             });
             crafterBlockEntity.getInvStackList().stream()
@@ -166,7 +165,7 @@ public class CrafterBlock extends BlockWithEntity {
         }
     }
 
-    public static Optional<CraftingRecipe> getCraftingRecipe(World world, CraftingInventory inputInventory) {
+    public static Optional<CraftingRecipe> getCraftingRecipe(World world, RecipeInputInventory inputInventory) {
         return recipeCache.getRecipe(world, inputInventory);
     }
 

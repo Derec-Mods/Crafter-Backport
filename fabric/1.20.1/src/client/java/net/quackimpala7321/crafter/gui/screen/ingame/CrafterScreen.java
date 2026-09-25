@@ -1,13 +1,11 @@
 package net.quackimpala7321.crafter.gui.screen.ingame;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.slot.Slot;
@@ -62,9 +60,9 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
                     this.handler.setSlotEnabled(slotId, disabled);
                     this.onSlotChangedState(slotId, this.handler.syncId, disabled);
                     if (disabled) {
-                        this.player.playSound(SoundEvents.UI_BUTTON_CLICK, 0.4F, 1.0F);
+                        this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 1.0F);
                     } else {
-                        this.player.playSound(SoundEvents.UI_BUTTON_CLICK, 0.4F, 0.75F);
+                        this.player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.4F, 0.75F);
                     }
                     return;
                 }
@@ -78,39 +76,30 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
         }
     }
 
-    public void drawDisabledSlot(MatrixStack matrices, CrafterInputSlot slot) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, DISABLED_SLOT_TEXTURE);
-        drawTexture(matrices, slot.x - 1, slot.y - 1, 0, 0, 18, 18, 18, 18);
+    public void drawDisabledSlot(DrawContext context, CrafterInputSlot slot) {
+        context.drawTexture(DISABLED_SLOT_TEXTURE, slot.x - 1, slot.y - 1, 0, 0, 18, 18, 18, 18);
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
-        this.drawArrowTexture(matrices);
-        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.render(context, mouseX, mouseY, delta);
+        this.drawArrowTexture(context);
+        this.drawMouseoverTooltip(context, mouseX, mouseY);
         if (this.focusedSlot instanceof CrafterInputSlot && !this.handler.isSlotDisabled(this.focusedSlot.id) && this.handler.getCursorStack().isEmpty() && !this.focusedSlot.hasStack()) {
-            this.renderTooltip(matrices, TOGGLEABLE_SLOT_TEXT, mouseX, mouseY);
+            context.drawTooltip(this.textRenderer, TOGGLEABLE_SLOT_TEXT, mouseX, mouseY);
         }
     }
 
-    private void drawArrowTexture(MatrixStack matrices) {
+    private void drawArrowTexture(DrawContext context) {
         int i = this.width / 2 + 9;
         int j = this.height / 2 - 48;
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE);
-        drawTexture(matrices, i, j, 0, 0, 16, 16, 16, 16);
+        context.drawTexture(this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE, i, j, 0, 0, 16, 16, 16, 16);
     }
 
     @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
-        this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        context.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
 }
