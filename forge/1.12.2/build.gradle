@@ -3,7 +3,7 @@ plugins {
     id 'com.gtnewhorizons.retrofuturagradle' version '1.4.9'
 }
 
-version = "1.0.0-1.12.2"
+version = "${project.mod_version}-${project.minecraft_version}-${project.modloader}"
 group = "net.quackimpala7321.crafter"
 
 java {
@@ -13,7 +13,7 @@ java {
 }
 
 minecraft {
-    mcVersion = '1.12.2'
+    mcVersion = project.minecraft_version
     mcpMappingChannel = 'stable'
     mcpMappingVersion = '39'
 }
@@ -32,10 +32,10 @@ repositories {
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "mcversion", "1.12.2"
+    inputs.property "mcversion", project.minecraft_version
 
     filesMatching("mcmod.info") {
-        expand "version": project.version, "mcversion": "1.12.2"
+        expand "version": project.version, "mcversion": project.minecraft_version
     }
 }
 
