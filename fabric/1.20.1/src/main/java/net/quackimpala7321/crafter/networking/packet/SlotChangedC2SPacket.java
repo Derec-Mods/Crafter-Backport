@@ -2,7 +2,7 @@ package net.quackimpala7321.crafter.networking.packet;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ServerPlayPacketListener;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 
 public class SlotChangedC2SPacket implements Packet<ServerPlayPacketListener> {
     private final int slotId;

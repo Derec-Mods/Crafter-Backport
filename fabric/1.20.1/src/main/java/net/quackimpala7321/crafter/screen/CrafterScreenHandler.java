@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.*;
 import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;
@@ -32,7 +33,7 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
     private static final int field_46785 = 45;
     private final PropertyDelegate propertyDelegate;
     private final PlayerEntity player;
-    private final Inventory inputInventory;
+    private final RecipeInputInventory inputInventory;
     private final BlockPos pos;
 
     public CrafterScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
@@ -44,7 +45,7 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
         this.pos = buf.readBlockPos();
     }
 
-    public CrafterScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inputInventory, PropertyDelegate propertyDelegate) {
+    public CrafterScreenHandler(int syncId, PlayerInventory playerInventory, RecipeInputInventory inputInventory, PropertyDelegate propertyDelegate) {
         super(ModScreenHandlers.CRAFTER_3X3, syncId);
         this.player = playerInventory.player;
         this.propertyDelegate = propertyDelegate;
@@ -103,8 +104,7 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
         return this.propertyDelegate.get(CrafterBlockEntity.TRIGGERED_PROPERTY) == 1;
     }
 
-    @Override
-    public ItemStack transferSlot(PlayerEntity player, int slot) {
+    public ItemStack quickMove(PlayerEntity player, int slot) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot2 = this.slots.get(slot);
         if (slot2.hasStack()) {
@@ -141,28 +141,14 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
     private void updateResult() {
         if (this.player instanceof ServerPlayerEntity serverPlayerEntity) {
             World world = serverPlayerEntity.getWorld();
-            CraftingInventory craftingInventory = toCraftingInventory(this.inputInventory);
-            ItemStack itemStack = CrafterBlock.getCraftingRecipe(world, craftingInventory).map((recipe) ->
-                    recipe.craft(craftingInventory)).orElse(ItemStack.EMPTY);
+            ItemStack itemStack = CrafterBlock.getCraftingRecipe(world, this.inputInventory).map((recipe) ->
+                    recipe.craft(this.inputInventory, world.getRegistryManager())).orElse(ItemStack.EMPTY);
             this.resultInventory.setStack(0, itemStack);
         }
 
     }
 
-    public static CraftingInventory toCraftingInventory(Inventory inv) {
-        CraftingInventory craftingInventory = new CraftingInventory(new ScreenHandler(null, -1) {
-            @Override
-            public boolean canUse(PlayerEntity player) { return false; }
-            @Override
-            public ItemStack transferSlot(PlayerEntity player, int slot) { return ItemStack.EMPTY; }
-        }, 3, 3);
-        for (int i = 0; i < 9; i++) {
-            craftingInventory.setStack(i, inv.getStack(i));
-        }
-        return craftingInventory;
-    }
-
-    public Inventory getInputInventory() {
+    public RecipeInputInventory getInputInventory() {
         return this.inputInventory;
     }
 

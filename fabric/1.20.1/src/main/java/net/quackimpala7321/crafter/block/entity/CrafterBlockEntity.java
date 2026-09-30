@@ -13,9 +13,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -34,7 +34,7 @@ import net.quackimpala7321.crafter.screen.CrafterScreenHandler;
 import java.util.Iterator;
 import java.util.List;
 
-public class CrafterBlockEntity extends LootableContainerBlockEntity implements ExtendedScreenHandlerFactory {
+public class CrafterBlockEntity extends LootableContainerBlockEntity implements RecipeInputInventory, ExtendedScreenHandlerFactory {
     public static final int GRID_WIDTH = 3;
     public static final int GRID_HEIGHT = 3;
     public static final int GRID_SIZE = 9;
@@ -219,21 +219,9 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         return GRID_HEIGHT;
     }
 
+    @Override
     public List<ItemStack> getInputStacks() {
         return this.inputStacks;
-    }
-
-    public CraftingInventory createCraftingInventory() {
-        CraftingInventory inv = new CraftingInventory(new ScreenHandler(null, -1) {
-            @Override
-            public boolean canUse(PlayerEntity player) { return false; }
-            @Override
-            public ItemStack transferSlot(PlayerEntity player, int slot) { return ItemStack.EMPTY; }
-        }, GRID_WIDTH, GRID_HEIGHT);
-        for (int i = 0; i < GRID_SIZE; i++) {
-            inv.setStack(i, this.getStack(i));
-        }
-        return inv;
     }
 
     public void provideRecipeInputs(RecipeMatcher finder) {

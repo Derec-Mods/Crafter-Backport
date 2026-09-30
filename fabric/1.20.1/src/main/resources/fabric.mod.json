@@ -5,7 +5,8 @@
 	"name": "Autocrafter Early",
 	"description": "This mod is NOT for distribution.",
 	"authors": [
-		"QuackImpala7321"
+		"QuackImpala7321",
+		"DerexXD"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -31,7 +32,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.14.23",
-		"minecraft": "~1.19.2",
+		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*"
 	},

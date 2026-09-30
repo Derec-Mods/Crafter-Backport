@@ -8,7 +8,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
+import java.util.Random;
 import net.quackimpala7321.crafter.registry.ModParticles;
 import net.quackimpala7321.crafter.registry.ModSoundEvents;
 import net.quackimpala7321.crafter.registry.ModWorldEvents;

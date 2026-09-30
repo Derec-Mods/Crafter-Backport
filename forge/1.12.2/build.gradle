@@ -7,6 +7,7 @@ version = project.mod_version
 group = "net.quackimpala7321.crafter"
 
 tasks.withType(AbstractArchiveTask).configureEach {
+    archiveBaseName.set(project.archives_base_name)
     archiveVersion.set("${project.mod_version}-${project.minecraft_version}-${project.modloader}")
 }
 

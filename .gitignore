@@ -2,6 +2,7 @@
 
 .gradle/
 .gradle-home/
+.gradle_home/
 build/
 out/
 classes/

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeManager;
@@ -22,26 +22,21 @@ public class RecipeCache {
         this.cache = new CachedRecipe[size];
     }
 
-    public Optional<CraftingRecipe> getRecipe(World world, CraftingInventory inputInventory) {
+    public Optional<CraftingRecipe> getRecipe(World world, RecipeInputInventory inputInventory) {
         if (inputInventory.isEmpty()) {
             return Optional.empty();
         } else {
             this.validateRecipeManager(world);
 
-            List<ItemStack> inputStacks = new ArrayList<>(inputInventory.size());
-            for (int i = 0; i < inputInventory.size(); i++) {
-                inputStacks.add(inputInventory.getStack(i));
-            }
-
             for(int i = 0; i < this.cache.length; ++i) {
                 CachedRecipe cachedRecipe = this.cache[i];
-                if (cachedRecipe != null && cachedRecipe.matches(inputStacks)) {
+                if (cachedRecipe != null && cachedRecipe.matches(inputInventory.getInputStacks())) {
                     this.sendToFront(i);
                     return Optional.ofNullable(cachedRecipe.craftingRecipe());
                 }
             }
 
-            return this.getAndCacheRecipe(inputInventory, inputStacks, world);
+            return this.getAndCacheRecipe(inputInventory, world);
         }
     }
 
@@ -54,9 +49,9 @@ public class RecipeCache {
 
     }
 
-    private Optional<CraftingRecipe> getAndCacheRecipe(CraftingInventory inputInventory, List<ItemStack> inputStacks, World world) {
+    private Optional<CraftingRecipe> getAndCacheRecipe(RecipeInputInventory inputInventory, World world) {
         Optional<CraftingRecipe> optional = world.getRecipeManager().getFirstMatch(RecipeType.CRAFTING, inputInventory, world);
-        this.cache(inputStacks, optional.orElse(null));
+        this.cache(inputInventory.getInputStacks(), optional.orElse(null));
         return optional;
     }
 
