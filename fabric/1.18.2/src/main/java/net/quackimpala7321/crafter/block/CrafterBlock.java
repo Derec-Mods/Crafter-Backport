@@ -27,7 +27,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import java.util.Random;
 import net.minecraft.world.World;
 import net.quackimpala7321.crafter.ItemScattererAccessor;
 import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;

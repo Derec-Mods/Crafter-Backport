@@ -24,6 +24,7 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -74,7 +75,7 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     }
 
     public Text getContainerName() {
-        return Text.translatable("container.crafter");
+        return new TranslatableText("container.crafter");
     }
 
     public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
