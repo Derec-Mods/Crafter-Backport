@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "net.quackimpala7321.crafter.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ItemScattererMixin"
+  ],
+  "client": [
+    "client.HandledScreenMixin",
+    "client.WorldRendererAccessor",
+    "client.WorldRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
