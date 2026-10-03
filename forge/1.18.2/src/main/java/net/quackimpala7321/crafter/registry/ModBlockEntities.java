@@ -8,7 +8,7 @@ import net.quackimpala7321.crafter.CrafterMod;
 import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;
 
 public class ModBlockEntities {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CrafterMod.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, CrafterMod.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<CrafterBlockEntity>> CRAFTER = BLOCK_ENTITIES.register("crafter",
             () -> BlockEntityType.Builder.create(CrafterBlockEntity::new, ModBlocks.CRAFTER.get()).build(null));

@@ -138,7 +138,7 @@ public class CrafterBlock extends BlockWithEntity {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
             if (player instanceof ServerPlayerEntity serverPlayer) {
-                NetworkHooks.openScreen(serverPlayer, crafterBlockEntity, pos);
+                NetworkHooks.openGui(serverPlayer, crafterBlockEntity, pos);
             }
         }
 

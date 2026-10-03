@@ -23,11 +23,11 @@ public class ModMessages {
 
         INSTANCE = net;
 
-        net.messageBuilder(SlotChangedPacket.class, id())
-                .decoder(SlotChangedPacket::new)
-                .encoder(SlotChangedPacket::toBytes)
-                .consumerMainThread(SlotChangedPacket::handle)
-                .add();
+        net.registerMessage(id(),
+                SlotChangedPacket.class,
+                SlotChangedPacket::toBytes,
+                SlotChangedPacket::new,
+                SlotChangedPacket::handle);
     }
 
     public static <MSG> void sendToServer(MSG message) {
