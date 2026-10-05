@@ -1,0 +1,9 @@
+tile.crafter.name=合成器
+tile.crafter.crafter.name=合成器
+item.crafter.name=合成器
+item.crafter.crafter.name=合成器
+Crafter.name=合成器
+crafter.name=合成器
+container.crafter=合成器
+crafter.gui.toggleable_slot=切换槽位
+crafter.gui.disabled_slot=已禁用槽位
