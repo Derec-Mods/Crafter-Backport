@@ -14,7 +14,9 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CraftingRecipe;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -135,7 +137,9 @@ public class CrafterBlock extends BlockWithEntity {
 
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
-            player.openHandledScreen(crafterBlockEntity);
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                NetworkHooks.openScreen(serverPlayer, crafterBlockEntity, pos);
+            }
         }
 
         return ActionResult.CONSUME;
