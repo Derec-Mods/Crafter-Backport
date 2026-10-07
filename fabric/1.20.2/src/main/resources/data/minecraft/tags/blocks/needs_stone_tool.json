@@ -1,6 +1,7 @@
 {
-    "replace": false,
-    "values": [
-        "minecraft:crafter"
-    ]
+  "replace": false,
+  "values": [
+    "crafter:crafter",
+    "minecraft:crafter"
+  ]
 }

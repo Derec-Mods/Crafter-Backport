@@ -89,7 +89,7 @@ public class RecipeCache {
                 return false;
             } else {
                 for(int i = 0; i < this.defaultedList.size(); ++i) {
-                    if (!ItemStack.canCombine(this.defaultedList.get(i), inputs.get(i))) {
+                    if (!(this.defaultedList.get(i).getItem() == inputs.get(i).getItem() && ItemStack.areTagsEqual(this.defaultedList.get(i), inputs.get(i)))) {
                         return false;
                     }
                 }

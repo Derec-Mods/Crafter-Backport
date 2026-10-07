@@ -24,6 +24,8 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -34,7 +36,7 @@ import net.quackimpala7321.crafter.screen.CrafterScreenHandler;
 import java.util.Iterator;
 import java.util.List;
 
-public class CrafterBlockEntity extends LootableContainerBlockEntity implements ExtendedScreenHandlerFactory {
+public class CrafterBlockEntity extends LootableContainerBlockEntity implements ExtendedScreenHandlerFactory, Tickable {
     public static final int GRID_WIDTH = 3;
     public static final int GRID_HEIGHT = 3;
     public static final int GRID_SIZE = 9;
@@ -46,8 +48,8 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     private int craftingTicksRemaining;
     protected final PropertyDelegate propertyDelegate;
 
-    public CrafterBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.CRAFTER, pos, state);
+    public CrafterBlockEntity() {
+        super(ModBlockEntities.CRAFTER);
         this.inputStacks = DefaultedList.ofSize(GRID_SIZE, ItemStack.EMPTY);
         this.craftingTicksRemaining = 0;
         this.propertyDelegate = new PropertyDelegate() {
@@ -73,8 +75,13 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         };
     }
 
+    public CrafterBlockEntity(BlockPos pos, BlockState state) {
+        this();
+    }
+
+    @Override
     public Text getContainerName() {
-        return Text.translatable("container.crafter");
+        return new TranslatableText("container.crafter");
     }
 
     public ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
@@ -125,8 +132,9 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         return false;
     }
 
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    @Override
+    public void fromTag(BlockState state, NbtCompound nbt) {
+        super.fromTag(state, nbt);
         this.craftingTicksRemaining = nbt.getInt("crafting_ticks_remaining");
         this.inputStacks = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         if (!this.deserializeLootTable(nbt)) {
@@ -152,8 +160,9 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         this.propertyDelegate.set(TRIGGERED_PROPERTY, nbt.getInt("triggered"));
     }
 
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
+    @Override
+    public NbtCompound toTag(NbtCompound nbt) {
+        super.toTag(nbt);
         nbt.putInt("crafting_ticks_remaining", this.craftingTicksRemaining);
         if (!this.serializeLootTable(nbt)) {
             Inventories.writeNbt(nbt, this.inputStacks);
@@ -161,6 +170,15 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
 
         this.putDisabledSlots(nbt);
         this.putTriggered(nbt);
+        return nbt;
+    }
+
+    public void readNbt(NbtCompound nbt) {
+        this.fromTag(this.getCachedState(), nbt);
+    }
+
+    protected void writeNbt(NbtCompound nbt) {
+        this.toTag(nbt);
     }
 
     public int size() {
@@ -265,6 +283,13 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     @VisibleForTesting
     public boolean isTriggered() {
         return this.propertyDelegate.get(TRIGGERED_PROPERTY) == 1;
+    }
+
+    @Override
+    public void tick() {
+        if (this.world != null && !this.world.isClient) {
+            tickCrafting(this.world, this.pos, this.getCachedState(), this);
+        }
     }
 
     public static void tickCrafting(World world, BlockPos pos, BlockState state, CrafterBlockEntity blockEntity) {

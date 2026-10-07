@@ -74,7 +74,8 @@ public class CrafterBlock extends BlockWithEntity {
         return RecordCodecBuilder.mapCodec((instance) -> instance.group(createSettingsCodec()).apply(instance, blockFromSettings));
     }
 
-    protected MapCodec<CrafterBlock> getCodec() {
+    @Override
+    public MapCodec<CrafterBlock> getCodec() {
         return CODEC;
     }
 

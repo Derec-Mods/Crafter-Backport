@@ -6,7 +6,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,6 +13,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.quackimpala7321.crafter.AutocrafterEarly;
 import net.quackimpala7321.crafter.networking.ModMessages;
@@ -26,7 +26,7 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     private static final Identifier POWERED_REDSTONE_TEXTURE = new Identifier(AutocrafterEarly.MOD_ID, "textures/gui/sprites/container/crafter/powered_redstone.png");
     private static final Identifier UNPOWERED_REDSTONE_TEXTURE = new Identifier(AutocrafterEarly.MOD_ID, "textures/gui/sprites/container/crafter/unpowered_redstone.png");
     private static final Identifier TEXTURE = new Identifier(AutocrafterEarly.MOD_ID, "textures/gui/container/crafter.png");
-    private static final Text TOGGLEABLE_SLOT_TEXT = Text.translatable("crafter.gui.toggleable_slot");
+    private static final Text TOGGLEABLE_SLOT_TEXT = new TranslatableText("crafter.gui.toggleable_slot");
     private final PlayerEntity player;
 
     public CrafterScreen(CrafterScreenHandler handler, PlayerInventory playerInventory, Text title) {
@@ -79,9 +79,8 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     }
 
     public void drawDisabledSlot(MatrixStack matrices, CrafterInputSlot slot) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, DISABLED_SLOT_TEXTURE);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.client.getTextureManager().bindTexture(DISABLED_SLOT_TEXTURE);
         drawTexture(matrices, slot.x - 1, slot.y - 1, 0, 0, 18, 18, 18, 18);
     }
 
@@ -98,17 +97,15 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     private void drawArrowTexture(MatrixStack matrices) {
         int i = this.width / 2 + 9;
         int j = this.height / 2 - 48;
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.client.getTextureManager().bindTexture(this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE);
         drawTexture(matrices, i, j, 0, 0, 16, 16, 16, 16);
     }
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.client.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);

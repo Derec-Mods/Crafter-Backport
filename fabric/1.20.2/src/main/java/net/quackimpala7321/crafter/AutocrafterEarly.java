@@ -25,6 +25,7 @@ public class AutocrafterEarly implements ModInitializer {
 		ModBlockEntities.registerBlockEntities();
 		ModParticles.registerParticles();
 		ModSoundEvents.registerSounds();
+		net.quackimpala7321.crafter.networking.ModMessages.registerMessages();
 
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.REDSTONE).register(content -> content.addAfter(Blocks.DROPPER, ModBlocks.CRAFTER));
 	}
