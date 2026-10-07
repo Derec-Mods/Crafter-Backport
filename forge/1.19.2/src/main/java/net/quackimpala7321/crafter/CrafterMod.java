@@ -33,6 +33,7 @@ public class CrafterMod {
         
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             modEventBus.addListener(CrafterClientSetup::onClientSetup);
+            modEventBus.addListener(CrafterClientSetup::onRegisterParticleProviders);
         });
     }
 
