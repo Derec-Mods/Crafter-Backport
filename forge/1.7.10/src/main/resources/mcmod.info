@@ -1,0 +1,21 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "Port of the Minecraft 1.21 Crafter block to Forge 1.7.10.",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "https://github.com/Derec-Mods/Crafter-Backport",
+		"updateUrl": "",
+		"authorList": ["QuackImpala7321", "Derex"],
+		"credits": "Mojang, QuackImpala7321, Derex",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": [],
+		"dependencies": [],
+		"dependants": [],
+		"useDependencyInformation": false
+	}]
+}

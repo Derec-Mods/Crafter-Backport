@@ -1,0 +1,3 @@
+tile.crafter.name=Crafter
+container.crafter=Crafter
+crafter.gui.toggleable_slot=Toggle Slot
