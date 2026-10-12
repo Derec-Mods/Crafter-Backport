@@ -45,7 +45,12 @@ public class ContainerCrafter extends Container {
 
     @Override
     public void onCraftMatrixChanged(IInventory inv) {
-        InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
+        InventoryCrafting craftMatrix = new InventoryCrafting(new Container() {
+            @Override
+            public boolean canInteractWith(EntityPlayer player) {
+                return false;
+            }
+        }, 3, 3);
         for (int i = 0; i < 9; i++) {
             craftMatrix.setInventorySlotContents(i, crafter.getStackInSlot(i));
         }
@@ -61,8 +66,8 @@ public class ContainerCrafter extends Container {
 
     @Override
     public void detectAndSendChanges() {
-        super.detectAndSendChanges();
         this.onCraftMatrixChanged(crafter);
+        super.detectAndSendChanges();
         for (Object listenerObj : this.crafters) {
             ICrafting listener = (ICrafting) listenerObj;
             if (this.lastDisabledSlotsMask != crafter.getDisabledSlotsMask()) {
