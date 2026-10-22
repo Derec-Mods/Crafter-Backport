@@ -2,6 +2,7 @@ package net.quackimpala7321.crafter.mixin.client;
 
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -17,7 +18,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
@@ -46,8 +46,8 @@ public class WorldRendererMixin {
 
     }
 
-    @Inject(method = "processWorldEvent", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
-    private void addSoundWorldEvents(int eventId, BlockPos pos, int data, CallbackInfo ci, Random random) {
+    @Inject(method = "processWorldEvent", at = @At("TAIL"))
+    private void addSoundWorldEvents(PlayerEntity player, int eventId, BlockPos pos, int data, CallbackInfo ci) {
         if (_acc.getWorld() == null) return;
         switch (eventId) {
             case ModWorldEvents.CRAFTER_FAILS:
@@ -66,7 +66,7 @@ public class WorldRendererMixin {
                 break;
             case ModWorldEvents.CRAFTER_SHOOTS:
                 shootParticles(
-                    data, pos, random, ModParticles.WHITE_SMOKE.get());
+                    data, pos, _acc.getWorld().getRandom(), ModParticles.WHITE_SMOKE.get());
                 break;
         }
     }

@@ -17,9 +17,9 @@ public class WhiteSmokeParticle extends AscendingParticle {
 
     protected WhiteSmokeParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, float scaleMultiplier, SpriteProvider spriteProvider) {
         super(world, x, y, z, 0.1F, 0.1F, 0.1F, velocityX, velocityY, velocityZ, scaleMultiplier, spriteProvider, 0.3F, 8, -0.1F, true);
-        this.red = 0.7294118F;
-        this.green = 0.69411767F;
-        this.blue = 0.7607843F;
+        this.colorRed = 0.7294118F;
+        this.colorGreen = 0.69411767F;
+        this.colorBlue = 0.7607843F;
     }
 
     public static class Factory implements ParticleFactory<DefaultParticleType> {

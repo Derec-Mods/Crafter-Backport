@@ -17,11 +17,10 @@
               "source": "block_entity"
             }
           ],
-          "name": "minecraft:crafter"
+          "name": "crafter:crafter"
         }
       ],
       "rolls": 1.0
     }
-  ],
-  "random_sequence": "minecraft:blocks/crafter"
+  ]
 }

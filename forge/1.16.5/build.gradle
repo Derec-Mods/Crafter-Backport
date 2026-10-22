@@ -15,9 +15,13 @@ java {
     }
 }
 
+tasks.withType(JavaExec).configureEach {
+    javaLauncher = javaToolchains.launcherFor(java.toolchain)
+}
+
 loom {
     forge {
-
+        mixinConfig "crafter.mixins.json"
     }
 }
 

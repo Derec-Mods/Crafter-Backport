@@ -1,0 +1,16 @@
+{
+  "crafter_craft": {
+    "category": "block",
+    "sounds": [
+      "crafter:crafter_craft",
+      "crafter:craft"
+    ]
+  },
+  "crafter_fail": {
+    "category": "block",
+    "sounds": [
+      "crafter:crafter_fail",
+      "crafter:fail"
+    ]
+  }
+}

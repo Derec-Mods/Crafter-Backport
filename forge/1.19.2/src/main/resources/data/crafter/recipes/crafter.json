@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "redstone",
   "key": {
     "#": {
       "item": "minecraft:iron_ingot"
@@ -21,7 +20,6 @@
     "RDR"
   ],
   "result": {
-    "item": "minecraft:crafter"
-  },
-  "show_notification": true
+    "item": "crafter:crafter"
+  }
 }

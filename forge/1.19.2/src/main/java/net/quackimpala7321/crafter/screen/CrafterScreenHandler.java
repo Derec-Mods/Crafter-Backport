@@ -41,7 +41,7 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
         this.propertyDelegate = new ArrayPropertyDelegate(10);
         this.inputInventory = new CraftingInventory(this, CrafterBlockEntity.GRID_WIDTH, CrafterBlockEntity.GRID_HEIGHT);
         this.addSlots(playerInventory);
-        this.pos = buf.readBlockPos();
+        this.pos = buf != null ? buf.readBlockPos() : BlockPos.ORIGIN;
     }
 
     public CrafterScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inputInventory, PropertyDelegate propertyDelegate) {

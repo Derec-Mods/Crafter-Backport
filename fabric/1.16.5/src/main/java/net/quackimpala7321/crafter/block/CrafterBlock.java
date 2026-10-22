@@ -3,8 +3,7 @@ package net.quackimpala7321.crafter.block;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.world.BlockView;
 import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.block.enums.JigsawOrientation;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +26,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import java.util.Random;
 import net.minecraft.world.World;
 import net.quackimpala7321.crafter.ItemScattererAccessor;
 import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;
@@ -68,7 +67,7 @@ public class CrafterBlock extends BlockWithEntity {
         boolean bl2 = state.get(TRIGGERED);
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (bl && !bl2) {
-            world.createAndScheduleBlockTick(pos, this, 1);
+            world.getBlockTickScheduler().schedule(pos, this, 1);
             world.setBlockState(pos, state.with(TRIGGERED, true), 2);
             this.setTriggered(blockEntity, true);
         } else if (!bl && bl2) {
@@ -82,8 +81,9 @@ public class CrafterBlock extends BlockWithEntity {
     }
 
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, ModBlockEntities.CRAFTER, CrafterBlockEntity::tickCrafting);
+    @Override
+    public BlockEntity createBlockEntity(BlockView world) {
+        return new CrafterBlockEntity();
     }
 
     private void setTriggered(@Nullable BlockEntity blockEntity, boolean triggered) {
@@ -93,7 +93,7 @@ public class CrafterBlock extends BlockWithEntity {
     }
 
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        CrafterBlockEntity crafterBlockEntity = new CrafterBlockEntity(pos, state);
+        CrafterBlockEntity crafterBlockEntity = new CrafterBlockEntity();
         crafterBlockEntity.setTriggered(state.contains(TRIGGERED) && state.get(TRIGGERED));
         return crafterBlockEntity;
     }
@@ -119,7 +119,7 @@ public class CrafterBlock extends BlockWithEntity {
         }
 
         if (state.get(TRIGGERED)) {
-            world.createAndScheduleBlockTick(pos, this, 1);
+            world.getBlockTickScheduler().schedule(pos, this, 1);
         }
     }
 

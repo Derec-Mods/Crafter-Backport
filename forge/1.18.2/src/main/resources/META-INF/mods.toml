@@ -4,7 +4,7 @@ license="MIT"
 
 [[mods]]
 modId="crafter"
-version="1.0.1.0"
+version="1.0.1.1"
 displayName="Crafter"
 authors="QuackImpala7321, DerexXD"
 description="Backports the Crafter from 1.21"

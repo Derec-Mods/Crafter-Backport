@@ -24,4 +24,7 @@ public class ModMessages {
             });
         }));
     }
+
+    public static void registerMessages() {
+    }
 }

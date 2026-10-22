@@ -119,7 +119,7 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
             }
 
             if (itemStack2.isEmpty()) {
-                slot2.setStackNoCallbacks(ItemStack.EMPTY);
+                slot2.setStack(ItemStack.EMPTY);
             } else {
                 slot2.markDirty();
             }

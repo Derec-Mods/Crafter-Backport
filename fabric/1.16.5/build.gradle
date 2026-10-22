@@ -22,13 +22,21 @@ repositories {
 	// for more information about repositories.
 }
 
-loom {
-    splitEnvironmentSourceSets()
+sourceSets {
+	main {
+		java {
+			srcDirs += 'src/client/java'
+		}
+		resources {
+			srcDirs += 'src/client/resources'
+		}
+	}
+}
 
+loom {
 	mods {
 		"crafter" {
 			sourceSet sourceSets.main
-			sourceSet sourceSets.client
 		}
 	}
 }
