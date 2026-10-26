@@ -34,6 +34,8 @@ import net.quackimpala7321.crafter.recipe.RecipeCache;
 import net.quackimpala7321.crafter.registry.ModBlockEntities;
 import net.quackimpala7321.crafter.registry.ModProperties;
 import net.quackimpala7321.crafter.registry.ModWorldEvents;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -135,7 +137,9 @@ public class CrafterBlock extends BlockWithEntity {
 
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
-            player.openHandledScreen(crafterBlockEntity);
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                NetworkHooks.openGui(serverPlayer, crafterBlockEntity, pos);
+            }
         }
 
         return ActionResult.CONSUME;
