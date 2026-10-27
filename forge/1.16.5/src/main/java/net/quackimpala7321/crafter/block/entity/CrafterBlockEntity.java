@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package net.quackimpala7321.crafter.block.entity;
 
 import com.google.common.annotations.VisibleForTesting;

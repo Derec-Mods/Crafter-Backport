@@ -1,27 +1,20 @@
-package net.quackimpala7321.crafter.gui.screen.ingame;
+package net.quackimpala7321.crafter.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
-
-
-
+import net.quackimpala7321.crafter.networking.ModMessages;
+import net.quackimpala7321.crafter.networking.SlotChangedPacket;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.quackimpala7321.crafter.CrafterMod;
-import net.quackimpala7321.crafter.networking.ModMessages; import net.quackimpala7321.crafter.networking.SlotChangedPacket;
-import net.quackimpala7321.crafter.networking.ModMessages;
-import net.quackimpala7321.crafter.screen.CrafterScreenHandler;
 import net.quackimpala7321.crafter.screen.slot.CrafterInputSlot;
-
 
 public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     private static final Identifier DISABLED_SLOT_TEXTURE = new Identifier(CrafterMod.MOD_ID, "textures/gui/sprites/container/crafter/disabled_slot.png");
@@ -45,11 +38,7 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     protected void onSlotChangedState(int slotId, int handlerId, boolean newState) {
         if (this.client == null || this.client.world == null) return;
 
-        net.minecraft.network.PacketByteBuf buf = new net.minecraft.network.PacketByteBuf(io.netty.buffer.Unpooled.buffer());
-        buf.writeInt(slotId);
-        buf.writeBlockPos(this.handler.getPos());
-        buf.writeBoolean(newState);
-        ModMessages.sendToServer(new SlotChangedPacket(slotId));
+        ModMessages.sendToServer(new SlotChangedPacket(slotId, this.handler.getPos(), newState));
     }
 
     @Override
@@ -60,7 +49,7 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
             if (slotId > -1 && slotId < 9 && slot instanceof CrafterInputSlot) {
                 boolean disabled = this.handler.isSlotDisabled(slotId);
                 
-                if (actionType == SlotActionType.PICKUP && !slot.hasStack() && this.playerInventory.getCursorStack().isEmpty()) {
+                if (actionType == SlotActionType.PICKUP && !slot.hasStack() && this.handler.getCursorStack().isEmpty()) {
                     this.handler.setSlotEnabled(slotId, disabled);
                     this.onSlotChangedState(slotId, this.handler.syncId, disabled);
                     if (disabled) {
@@ -81,18 +70,18 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     }
 
     public void drawDisabledSlot(MatrixStack matrices, CrafterInputSlot slot) {
-        
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        client.getTextureManager().bindTexture(DISABLED_SLOT_TEXTURE);
+        this.client.getTextureManager().bindTexture(DISABLED_SLOT_TEXTURE);
         drawTexture(matrices, slot.x - 1, slot.y - 1, 0, 0, 18, 18, 18, 18);
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         this.drawArrowTexture(matrices);
         this.drawMouseoverTooltip(matrices, mouseX, mouseY);
-        if (this.focusedSlot instanceof CrafterInputSlot && !this.handler.isSlotDisabled(this.focusedSlot.id) && this.playerInventory.getCursorStack().isEmpty() && !this.focusedSlot.hasStack()) {
+        if (this.focusedSlot instanceof CrafterInputSlot && !this.handler.isSlotDisabled(this.focusedSlot.id) && this.handler.getCursorStack().isEmpty() && !this.focusedSlot.hasStack()) {
             this.renderTooltip(matrices, TOGGLEABLE_SLOT_TEXT, mouseX, mouseY);
         }
     }
@@ -100,21 +89,17 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
     private void drawArrowTexture(MatrixStack matrices) {
         int i = this.width / 2 + 9;
         int j = this.height / 2 - 48;
-        
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        client.getTextureManager().bindTexture(this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE);
+        this.client.getTextureManager().bindTexture(this.handler.isTriggered() ? POWERED_REDSTONE_TEXTURE : UNPOWERED_REDSTONE_TEXTURE);
         drawTexture(matrices, i, j, 0, 0, 16, 16, 16, 16);
     }
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        client.getTextureManager().bindTexture(TEXTURE);
+        this.client.getTextureManager().bindTexture(TEXTURE);
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
     }
 }
-
-

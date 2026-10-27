@@ -5,7 +5,10 @@
   "mixins": [
     "ItemScattererMixin"
   ],
+  "client": [
+    "client.HandledScreenMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

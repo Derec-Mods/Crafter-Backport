@@ -3,7 +3,7 @@ package net.quackimpala7321.crafter.mixin.client;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.slot.Slot;
-import net.quackimpala7321.crafter.gui.screen.ingame.CrafterScreen;
+import net.quackimpala7321.crafter.screen.CrafterScreen;
 import net.quackimpala7321.crafter.screen.slot.CrafterInputSlot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

@@ -6,7 +6,7 @@ import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.quackimpala7321.crafter.registry.ModParticles;
 import net.quackimpala7321.crafter.registry.ModScreenHandlers;
-import net.quackimpala7321.crafter.gui.screen.ingame.CrafterScreen;
+import net.quackimpala7321.crafter.screen.CrafterScreen;
 
 public class CrafterClientSetup {
     public static void onClientSetup(FMLClientSetupEvent event) {

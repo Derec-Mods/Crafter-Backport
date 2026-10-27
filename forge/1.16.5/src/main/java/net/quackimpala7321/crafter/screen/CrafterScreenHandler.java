@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package net.quackimpala7321.crafter.screen;
 
 import net.minecraft.network.PacketByteBuf;
@@ -58,6 +53,10 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
 
     public BlockPos getPos() {
         return this.pos;
+    }
+
+    public ItemStack getCursorStack() {
+        return this.player.inventory.getCursorStack();
     }
 
     private void addSlots(PlayerInventory playerInventory) {
