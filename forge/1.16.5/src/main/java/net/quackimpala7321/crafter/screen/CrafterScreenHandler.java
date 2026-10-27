@@ -47,7 +47,6 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
         checkSize(inputInventory, CrafterBlockEntity.GRID_SIZE);
         inputInventory.onOpen(playerInventory.player);
         this.addSlots(playerInventory);
-        this.addListener(this);
         this.pos = BlockPos.ORIGIN;
     }
 
@@ -165,7 +164,13 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
         return this.inputInventory;
     }
 
-        @Override
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        super.onContentChanged(inventory);
+        this.updateResult();
+    }
+
+    @Override
     public void onHandlerRegistered(ScreenHandler handler, net.minecraft.util.collection.DefaultedList<ItemStack> stacks) {
         this.updateResult();
     }

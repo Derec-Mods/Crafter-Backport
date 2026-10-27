@@ -141,7 +141,7 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
 
         for(int var5 = 0; var5 < var4; ++var5) {
             int j = var7[var5];
-            if (this.canToggleSlot(j)) {
+            if (j >= 0 && j < 9) {
                 this.propertyDelegate.set(j, 1);
             }
         }
@@ -149,7 +149,8 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         this.propertyDelegate.set(TRIGGERED_PROPERTY, nbt.getInt("triggered"));
     }
 
-        public NbtCompound toTag(NbtCompound nbt) {
+    @Override
+    public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         nbt.putInt("crafting_ticks_remaining", this.craftingTicksRemaining);
         if (!this.serializeLootTable(nbt)) {
@@ -158,6 +159,10 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         this.putDisabledSlots(nbt);
         this.putTriggered(nbt);
         return nbt;
+    }
+
+    public NbtCompound toTag(NbtCompound nbt) {
+        return this.writeNbt(nbt);
     }
 
     public int size() {
