@@ -38,7 +38,8 @@ public class SlotChangedPacket {
             ServerPlayerEntity player = context.getSender();
             if (player == null) return;
             BlockEntity blockEntity = player.getServerWorld().getBlockEntity(this.pos);
-            if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
+            if (blockEntity instanceof CrafterBlockEntity) {
+                CrafterBlockEntity crafterBlockEntity = (CrafterBlockEntity) blockEntity;
                 crafterBlockEntity.setSlotEnabled(this.slotId, this.newState);
             }
         });

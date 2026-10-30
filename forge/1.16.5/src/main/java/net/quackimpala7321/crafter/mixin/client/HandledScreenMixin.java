@@ -18,9 +18,11 @@ public class HandledScreenMixin {
 
     @Inject(method = "drawSlot", at = @At("HEAD"), cancellable = true)
     public void drawSlotMixin(MatrixStack matrices, Slot slot, CallbackInfo ci) {
-        if (!(thisHandledScreen instanceof CrafterScreen thisCrafterScreen)) return;
+        if (!(thisHandledScreen instanceof CrafterScreen)) return;
+        CrafterScreen thisCrafterScreen = (CrafterScreen) thisHandledScreen;
 
-        if (slot instanceof CrafterInputSlot crafterInputSlot) {
+        if (slot instanceof CrafterInputSlot) {
+            CrafterInputSlot crafterInputSlot = (CrafterInputSlot) slot;
             if (thisCrafterScreen.getScreenHandler().isSlotDisabled(slot.id)) {
                 thisCrafterScreen.drawDisabledSlot(matrices, crafterInputSlot);
                 ci.cancel();

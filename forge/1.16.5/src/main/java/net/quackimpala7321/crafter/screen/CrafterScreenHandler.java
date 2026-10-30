@@ -137,7 +137,8 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
     }
 
     private void updateResult() {
-        if (this.player instanceof ServerPlayerEntity serverPlayerEntity) {
+        if (this.player instanceof ServerPlayerEntity) {
+            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) this.player;
             World world = serverPlayerEntity.getServerWorld();
             CraftingInventory craftingInventory = toCraftingInventory(this.inputInventory);
             ItemStack itemStack = CrafterBlock.getCraftingRecipe(world, craftingInventory).map((recipe) ->
