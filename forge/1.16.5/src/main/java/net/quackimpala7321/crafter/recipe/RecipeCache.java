@@ -82,7 +82,24 @@ public class RecipeCache {
         this.cache[0] = new CachedRecipe(defaultedList, recipe);
     }
 
-    record CachedRecipe(DefaultedList<ItemStack> defaultedList, @Nullable CraftingRecipe craftingRecipe) {
+    static class CachedRecipe {
+        private final DefaultedList<ItemStack> defaultedList;
+        @Nullable
+        private final CraftingRecipe craftingRecipe;
+
+        public CachedRecipe(DefaultedList<ItemStack> defaultedList, @Nullable CraftingRecipe craftingRecipe) {
+            this.defaultedList = defaultedList;
+            this.craftingRecipe = craftingRecipe;
+        }
+
+        public DefaultedList<ItemStack> defaultedList() {
+            return this.defaultedList;
+        }
+
+        @Nullable
+        public CraftingRecipe craftingRecipe() {
+            return this.craftingRecipe;
+        }
 
         public boolean matches(List<ItemStack> inputs) {
             if (this.defaultedList.size() != inputs.size()) {

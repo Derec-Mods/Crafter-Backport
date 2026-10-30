@@ -57,7 +57,8 @@ public class CrafterBlock extends BlockWithEntity {
 
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
+        if (blockEntity instanceof CrafterBlockEntity) {
+            CrafterBlockEntity crafterBlockEntity = (CrafterBlockEntity) blockEntity;
             return crafterBlockEntity.getComparatorOutput();
         } else {
             return 0;
@@ -89,7 +90,8 @@ public class CrafterBlock extends BlockWithEntity {
     }
 
     private void setTriggered(@Nullable BlockEntity blockEntity, boolean triggered) {
-        if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
+        if (blockEntity instanceof CrafterBlockEntity) {
+            CrafterBlockEntity crafterBlockEntity = (CrafterBlockEntity) blockEntity;
             crafterBlockEntity.setTriggered(triggered);
         }
     }
@@ -103,19 +105,31 @@ public class CrafterBlock extends BlockWithEntity {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         Direction direction = ctx.getPlayerLookDirection().getOpposite();
 
-        Direction direction2 = switch (direction) {
-            case DOWN -> ctx.getPlayerFacing().getOpposite();
-            case UP -> ctx.getPlayerFacing();
-            case NORTH, SOUTH, WEST, EAST -> Direction.UP;
-            default -> throw new IncompatibleClassChangeError();
-        };
+        Direction direction2;
+        switch (direction) {
+            case DOWN:
+                direction2 = ctx.getPlayerFacing().getOpposite();
+                break;
+            case UP:
+                direction2 = ctx.getPlayerFacing();
+                break;
+            case NORTH:
+            case SOUTH:
+            case WEST:
+            case EAST:
+                direction2 = Direction.UP;
+                break;
+            default:
+                throw new IncompatibleClassChangeError();
+        }
         return this.getDefaultState().with(ORIENTATION, JigsawOrientation.byDirections(direction, direction2)).with(TRIGGERED, ctx.getWorld().isReceivingRedstonePower(ctx.getBlockPos()));
     }
 
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
         if (itemStack.hasCustomName()) {
             BlockEntity var7 = world.getBlockEntity(pos);
-            if (var7 instanceof CrafterBlockEntity crafterBlockEntity) {
+            if (var7 instanceof CrafterBlockEntity) {
+                CrafterBlockEntity crafterBlockEntity = (CrafterBlockEntity) var7;
                 crafterBlockEntity.setCustomName(itemStack.getName());
             }
         }
@@ -136,8 +150,10 @@ public class CrafterBlock extends BlockWithEntity {
         }
 
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof CrafterBlockEntity crafterBlockEntity) {
-            if (player instanceof ServerPlayerEntity serverPlayer) {
+        if (blockEntity instanceof CrafterBlockEntity) {
+            CrafterBlockEntity crafterBlockEntity = (CrafterBlockEntity) blockEntity;
+            if (player instanceof ServerPlayerEntity) {
+                ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
                 NetworkHooks.openGui(serverPlayer, crafterBlockEntity, pos);
             }
         }
@@ -147,11 +163,12 @@ public class CrafterBlock extends BlockWithEntity {
 
     protected void craft(BlockState state, ServerWorld world, BlockPos pos) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) return;
+        if (!(blockEntity instanceof CrafterBlockEntity)) return;
+        CrafterBlockEntity crafterBlockEntity = (CrafterBlockEntity) blockEntity;
 
         CraftingInventory craftingInventory = crafterBlockEntity.createCraftingInventory();
         Optional<CraftingRecipe> optional = getCraftingRecipe(world, craftingInventory);
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
             world.syncWorldEvent(ModWorldEvents.CRAFTER_FAILS, pos, 0);
         } else {
             crafterBlockEntity.setCraftingTicksRemaining(6);

@@ -11,7 +11,8 @@ public interface ItemScattererAccessor {
     static void onStateReplaced(BlockState state, BlockState newState, World world, BlockPos pos) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof Inventory inventory) {
+            if (blockEntity instanceof Inventory) {
+                Inventory inventory = (Inventory) blockEntity;
                 ItemScatterer.spawn(world, pos, inventory);
                 world.updateComparators(pos, state.getBlock());
             }
