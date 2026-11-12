@@ -12,7 +12,7 @@ import net.quackimpala7321.crafter.AutocrafterEarly;
 import net.quackimpala7321.crafter.block.CrafterBlock;
 
 public class ModBlocks {
-    public static final Block CRAFTER = registerBlock(new Identifier("crafter"),
+    public static final Block CRAFTER = registerBlock(new Identifier(AutocrafterEarly.MOD_ID, "crafter"),
             new CrafterBlock(FabricBlockSettings.create()
                 .mapColor(MapColor.STONE_GRAY)
                 .requiresTool()

@@ -123,7 +123,7 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         for(int i = slot + 1; i < 9; ++i) {
             if (!this.isSlotDisabled(i)) {
                 ItemStack itemStack = this.getStack(i);
-                if (itemStack.isEmpty() || itemStack.getCount() < count && ItemStack.canCombine(itemStack, stack)) {
+                if (itemStack.isEmpty() || itemStack.getCount() < count && itemStack.getItem() == stack.getItem() && ItemStack.areTagsEqual(itemStack, stack)) {
                     return true;
                 }
             }
@@ -161,8 +161,8 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
     }
 
     @Override
-    public NbtCompound toTag(NbtCompound nbt) {
-        super.toTag(nbt);
+    public NbtCompound writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
         nbt.putInt("crafting_ticks_remaining", this.craftingTicksRemaining);
         if (!this.serializeLootTable(nbt)) {
             Inventories.writeNbt(nbt, this.inputStacks);
@@ -173,12 +173,12 @@ public class CrafterBlockEntity extends LootableContainerBlockEntity implements 
         return nbt;
     }
 
-    public void readNbt(NbtCompound nbt) {
-        this.fromTag(this.getCachedState(), nbt);
+    public NbtCompound toTag(NbtCompound nbt) {
+        return this.writeNbt(nbt);
     }
 
-    protected void writeNbt(NbtCompound nbt) {
-        this.toTag(nbt);
+    public void readNbt(NbtCompound nbt) {
+        this.fromTag(this.getCachedState(), nbt);
     }
 
     public int size() {

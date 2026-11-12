@@ -11,7 +11,7 @@ import net.quackimpala7321.crafter.block.entity.CrafterBlockEntity;
 public class ModBlockEntities {
     public static final BlockEntityType<CrafterBlockEntity> CRAFTER = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
-            new Identifier("crafter"),
+            new Identifier(AutocrafterEarly.MOD_ID, "crafter"),
             FabricBlockEntityTypeBuilder.create(CrafterBlockEntity::new, ModBlocks.CRAFTER).build()
     );
 

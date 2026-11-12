@@ -92,12 +92,6 @@ public class CrafterBlock extends BlockWithEntity {
         }
     }
 
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        CrafterBlockEntity crafterBlockEntity = new CrafterBlockEntity();
-        crafterBlockEntity.setTriggered(state.contains(TRIGGERED) && state.get(TRIGGERED));
-        return crafterBlockEntity;
-    }
-
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         Direction direction = ctx.getPlayerLookDirection().getOpposite();
 
@@ -119,6 +113,7 @@ public class CrafterBlock extends BlockWithEntity {
         }
 
         if (state.get(TRIGGERED)) {
+            this.setTriggered(world.getBlockEntity(pos), true);
             world.getBlockTickScheduler().schedule(pos, this, 1);
         }
     }

@@ -86,8 +86,8 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        this.renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
-        this.drawArrowTexture(matrices);
         this.drawMouseoverTooltip(matrices, mouseX, mouseY);
         if (this.focusedSlot instanceof CrafterInputSlot && !this.handler.isSlotDisabled(this.focusedSlot.id) && this.handler.getCursorStack().isEmpty() && !this.focusedSlot.hasStack()) {
             this.renderTooltip(matrices, TOGGLEABLE_SLOT_TEXT, mouseX, mouseY);
@@ -109,5 +109,6 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         this.drawTexture(matrices, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        this.drawArrowTexture(matrices);
     }
 }

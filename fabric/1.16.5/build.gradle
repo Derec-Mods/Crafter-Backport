@@ -56,6 +56,19 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 }
 
+tasks.configureEach { task ->
+	if (task.name == 'configureLaunch' || task.name == 'configureClientLaunch') {
+		task.doLast {
+			def launchCfg = file('.gradle/loom-cache/launch.cfg')
+			if (launchCfg.exists()) {
+				def classesDir = sourceSets.main.java.classesDirectory.get().asFile.absolutePath
+				def resourcesDir = sourceSets.main.output.resourcesDir.absolutePath
+				launchCfg.text = launchCfg.text.replace("${classesDir};${resourcesDir}", "${resourcesDir};${classesDir}")
+			}
+		}
+	}
+}
+
 processResources {
 	inputs.property "version", project.version
 

@@ -17,7 +17,7 @@ public class ModMessages {
             boolean newState = buf.readBoolean();
 
             server.execute(() -> {
-                BlockEntity blockEntity = player.getWorld().getBlockEntity(pos);
+                BlockEntity blockEntity = player.getServerWorld().getBlockEntity(pos);
                 if (!(blockEntity instanceof CrafterBlockEntity crafterBlockEntity)) return;
 
                 crafterBlockEntity.setSlotEnabled(slotId, newState);

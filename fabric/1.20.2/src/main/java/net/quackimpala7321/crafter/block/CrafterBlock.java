@@ -5,10 +5,6 @@
 
 package net.quackimpala7321.crafter.block;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.fabricmc.fabric.mixin.object.builder.AbstractBlockAccessor;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.entity.BlockEntity;
@@ -49,7 +45,6 @@ import net.quackimpala7321.crafter.registry.ModWorldEvents;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 public class CrafterBlock extends BlockWithEntity {
     public static final BooleanProperty CRAFTING;
@@ -58,25 +53,9 @@ public class CrafterBlock extends BlockWithEntity {
     private static final int field_46802 = 6;
     private static final RecipeCache recipeCache;
 
-    private static final Codec<Settings> SETTINGS_CODEC = Codec.unit(Settings::new);
-    public static final MapCodec<CrafterBlock> CODEC = createCodec(CrafterBlock::new);
-
     public CrafterBlock(AbstractBlock.Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(ORIENTATION, JigsawOrientation.NORTH_UP).with(TRIGGERED, false).with(CRAFTING, false));
-    }
-
-    protected static <B extends Block> RecordCodecBuilder<B, Settings> createSettingsCodec() {
-        return SETTINGS_CODEC.fieldOf("properties").forGetter(b -> ((AbstractBlockAccessor)b).getSettings());
-    }
-
-    public static <B extends Block> MapCodec<B> createCodec(Function<Settings, B> blockFromSettings) {
-        return RecordCodecBuilder.mapCodec((instance) -> instance.group(createSettingsCodec()).apply(instance, blockFromSettings));
-    }
-
-    @Override
-    public MapCodec<CrafterBlock> getCodec() {
-        return CODEC;
     }
 
     public boolean hasComparatorOutput(BlockState state) {

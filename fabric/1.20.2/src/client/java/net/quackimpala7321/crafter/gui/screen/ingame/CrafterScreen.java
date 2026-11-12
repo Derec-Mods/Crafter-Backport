@@ -86,7 +86,6 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-        this.drawArrowTexture(context);
         this.drawMouseoverTooltip(context, mouseX, mouseY);
         if (this.focusedSlot instanceof CrafterInputSlot && !this.handler.isSlotDisabled(this.focusedSlot.id) && this.handler.getCursorStack().isEmpty() && !this.focusedSlot.hasStack()) {
             context.drawTooltip(this.textRenderer, TOGGLEABLE_SLOT_TEXT, mouseX, mouseY);
@@ -104,5 +103,6 @@ public class CrafterScreen extends HandledScreen<CrafterScreenHandler> {
         int i = (this.width - this.backgroundWidth) / 2;
         int j = (this.height - this.backgroundHeight) / 2;
         context.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+        this.drawArrowTexture(context);
     }
 }

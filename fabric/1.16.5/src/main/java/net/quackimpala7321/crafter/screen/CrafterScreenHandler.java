@@ -21,6 +21,7 @@ import net.quackimpala7321.crafter.screen.slot.CrafterInputSlot;
 import net.quackimpala7321.crafter.screen.slot.CrafterOutputSlot;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 public class CrafterScreenHandler extends ScreenHandler implements ScreenHandlerListener {
@@ -58,6 +59,10 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
 
     public BlockPos getPos() {
         return this.pos;
+    }
+
+    public ItemStack getCursorStack() {
+        return this.player.inventory.getCursorStack();
     }
 
     private void addSlots(PlayerInventory playerInventory) {
@@ -140,7 +145,7 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
 
     private void updateResult() {
         if (this.player instanceof ServerPlayerEntity serverPlayerEntity) {
-            World world = serverPlayerEntity.getWorld();
+            World world = serverPlayerEntity.getServerWorld();
             CraftingInventory craftingInventory = toCraftingInventory(this.inputInventory);
             ItemStack itemStack = CrafterBlock.getCraftingRecipe(world, craftingInventory).map((recipe) ->
                     recipe.craft(craftingInventory)).orElse(ItemStack.EMPTY);
@@ -164,6 +169,17 @@ public class CrafterScreenHandler extends ScreenHandler implements ScreenHandler
 
     public Inventory getInputInventory() {
         return this.inputInventory;
+    }
+
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        super.onContentChanged(inventory);
+        this.updateResult();
+    }
+
+    @Override
+    public void onHandlerRegistered(ScreenHandler handler, DefaultedList<ItemStack> stacks) {
+        this.updateResult();
     }
 
     public void onSlotUpdate(ScreenHandler handler, int slotId, ItemStack stack) {

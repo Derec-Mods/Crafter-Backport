@@ -47,7 +47,7 @@ public class WorldRendererMixin {
     }
 
     @Inject(method = "processWorldEvent", at = @At("TAIL"))
-    private void addSoundWorldEvents(PlayerEntity player, int eventId, BlockPos pos, int data, CallbackInfo ci) {
+    private void addSoundWorldEvents(int eventId, BlockPos pos, int data, CallbackInfo ci) {
         if (_acc.getWorld() == null) return;
         switch (eventId) {
             case ModWorldEvents.CRAFTER_FAILS:

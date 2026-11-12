@@ -2,7 +2,6 @@ package net.quackimpala7321.crafter.mixin.client;
 
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
@@ -47,7 +46,7 @@ public class WorldRendererMixin {
     }
 
     @Inject(method = "processWorldEvent", at = @At("TAIL"))
-    private void addSoundWorldEvents(PlayerEntity player, int eventId, BlockPos pos, int data, CallbackInfo ci) {
+    private void addSoundWorldEvents(int eventId, BlockPos pos, int data, CallbackInfo ci) {
         if (_acc.getWorld() == null) return;
         switch (eventId) {
             case ModWorldEvents.CRAFTER_FAILS:

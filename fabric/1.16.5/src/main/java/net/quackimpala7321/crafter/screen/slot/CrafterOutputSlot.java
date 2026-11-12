@@ -51,7 +51,8 @@ public class CrafterOutputSlot extends Slot {
         return ItemStack.EMPTY;
     }
 
-    public void onTakeItem(PlayerEntity player, ItemStack stack) {
+    public ItemStack onTakeItem(PlayerEntity player, ItemStack stack) {
+        return stack;
     }
 
     public boolean canBeHighlighted() {

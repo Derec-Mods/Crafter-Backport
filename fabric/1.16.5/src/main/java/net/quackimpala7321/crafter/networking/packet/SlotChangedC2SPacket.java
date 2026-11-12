@@ -16,6 +16,11 @@ public class SlotChangedC2SPacket implements Packet<ServerPlayPacketListener> {
     }
 
     @Override
+    public void read(PacketByteBuf buf) {
+
+    }
+
+    @Override
     public void write(PacketByteBuf buf) {
 
     }
